@@ -1,0 +1,146 @@
+<!doctype html>
+<html>
+<head>
+    <title>Hub</title>
+    <link href="resources/hub.css" rel="stylesheet" type="text/css">
+    
+    <!-- <script type="text/javascript" src="libraries/jquery-1.9.1.min.js"></script> -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+<script>
+var canvas;
+
+$(document).ready(function(){
+    //canvas = document.getElementById("myCanvas");
+    //ctx = canvas.getContext("2d");
+    
+    //ctx.font = "30px Arial";
+    //ctx.strokeText("Hello Wold",10,50);
+    clock();
+    
+    var url = "desert.json"
+    
+    //var myArray = JSON.parse(url);
+    
+});
+
+function clock(){
+  var now = new Date();
+  var ctx = document.getElementById('myCanvas').getContext('2d');
+  ctx.save();
+  ctx.clearRect(0,0,150,150);
+  ctx.translate(75,75);
+  ctx.scale(0.4,0.4);
+  ctx.rotate(-Math.PI/2);
+  ctx.strokeStyle = "black";
+  ctx.fillStyle = "white";
+  ctx.lineWidth = 8;
+  ctx.lineCap = "round";
+
+  // Hour marks
+  ctx.save();
+  for (var i=0;i<12;i++){
+    ctx.beginPath();
+    ctx.rotate(Math.PI/6);
+    ctx.moveTo(100,0);
+    ctx.lineTo(120,0);
+    ctx.stroke();
+  }
+  ctx.restore();
+
+  // Minute marks
+  ctx.save();
+  ctx.lineWidth = 5;
+  for (i=0;i<60;i++){
+    if (i%5!=0) {
+      ctx.beginPath();
+      ctx.moveTo(117,0);
+      ctx.lineTo(120,0);
+      ctx.stroke();
+    }
+    ctx.rotate(Math.PI/30);
+  }
+  ctx.restore();
+ 
+  var sec = now.getSeconds();
+  var min = now.getMinutes();
+  var hr  = now.getHours();
+  hr = hr>=12 ? hr-12 : hr;
+
+  ctx.fillStyle = "black";
+
+  // write Hours
+  ctx.save();
+  ctx.rotate( hr*(Math.PI/6) + (Math.PI/360)*min + (Math.PI/21600)*sec )
+  ctx.lineWidth = 14;
+  ctx.beginPath();
+  ctx.moveTo(-20,0);
+  ctx.lineTo(80,0);
+  ctx.stroke();
+  ctx.restore();
+
+  // write Minutes
+  ctx.save();
+  ctx.rotate( (Math.PI/30)*min + (Math.PI/1800)*sec )
+  ctx.lineWidth = 10;
+  ctx.beginPath();
+  ctx.moveTo(-28,0);
+  ctx.lineTo(112,0);
+  ctx.stroke();
+  ctx.restore();
+ 
+  // Write seconds
+  ctx.save();
+  ctx.rotate(sec * Math.PI/30);
+  ctx.strokeStyle = "#D40000";
+  ctx.fillStyle = "#D40000";
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.moveTo(-30,0);
+  ctx.lineTo(83,0);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(0,0,10,0,Math.PI*2,true);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(95,0,10,0,Math.PI*2,true);
+  ctx.stroke();
+  ctx.fillStyle = "rgba(0,0,0,0)";
+  ctx.arc(0,0,3,0,Math.PI*2,true);
+  ctx.fill();
+  ctx.restore();
+
+  ctx.beginPath();
+  ctx.lineWidth = 14;
+  ctx.strokeStyle = '#325FA2';
+  ctx.arc(0,0,142,0,Math.PI*2,true);
+  ctx.stroke();
+
+  ctx.restore();
+
+  window.requestAnimationFrame(clock);
+}
+
+window.requestAnimationFrame(clock);
+
+</script>
+</head>
+
+
+<body>    
+    <h1>Hub!</h1>
+
+    <br/><br/><br/>
+    
+    <a href="../snake/snake.html">Snakes</a>
+
+    <br/><br/><br/>
+
+
+    <canvas id="myCanvas" width="1000px" height="500px">
+        Canvas not found
+    </canvas>
+
+
+</body>
+</html>
